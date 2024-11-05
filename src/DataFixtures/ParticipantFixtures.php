@@ -14,29 +14,36 @@ class ParticipantFixtures extends Fixture
     }
     public function load(ObjectManager $manager): void
     {
+
+        //Initialisation de Faker
+        $faker = \Faker\Factory::create('fr_FR');
+
         //Créer un administrateur
         $participantAdmin = new Participant();
-        $participantAdmin->setPseudo('admin@test.fr');
-        $participantAdmin->setNom('admin');
-        $participantAdmin->setPrenom('admin@test.fr');
-        $participantAdmin->setTelephone('admin@test.fr');
+        $participantAdmin->setPseudo('admin');
+        $participantAdmin->setNom('adminNom');
+        $participantAdmin->setPrenom('adminPrenom');
+        $participantAdmin->setTelephone('00.00.00.00.00');
         $participantAdmin->setEmail('admin@test.fr');
-        $participantAdmin->setPassword('admin@test.fr');
-        $participantAdmin->setActif('admin@test.fr');
+        $participantAdmin->setActif('1');
         $participantAdmin->setRoles(['ROLE_ADMIN']);
         $password=$this->userPasswordHasher->hashPassword($participantAdmin,'123456');
         $participantAdmin->setPassword($password);
         $manager->persist($participantAdmin);
 
-        //Créer 10 Utilisateurs
+        //Créer 10 Participants
         for ($i = 0; $i < 10; $i++) {
-            $user = new Participant();
-            $user->setNom("user$i");
-            $user->setPrenom("user$i@test.fr");
-            $user->setRoles(['ROLE_USER']);
+            $participant = new Participant();
+            $participant ->setPseudo($faker->userName);
+            $participant->setNom($faker->lastName);
+            $participant->setPrenom($faker->firstName);
+            $participant->setTelephone($faker->phoneNumber);
+            $participant->setEmail($faker->email);
+            $participant->setActif(1);
+            $participant->setRoles(['ROLE_USER']);
             $password=$this->userPasswordHasher->hashPassword($participantAdmin,'123456');
-            $user->setPassword($password);
-            $manager->persist($user);
+            $participant->setPassword($password);
+            $manager->persist($participant);
         }
 
         $manager->flush();
