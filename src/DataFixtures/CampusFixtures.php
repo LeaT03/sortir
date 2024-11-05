@@ -5,8 +5,9 @@ namespace App\DataFixtures;
 use App\Entity\Campus;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class CampusFixtures extends Fixture
+class CampusFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -29,4 +30,10 @@ class CampusFixtures extends Fixture
 
         $manager->flush();
     }
+
+    public function getDependencies() :array
+    {
+        return [ParticipantFixtures::class,SortieFixtures::class];
+    }
+
 }
