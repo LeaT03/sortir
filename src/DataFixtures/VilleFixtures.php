@@ -13,18 +13,26 @@ class VilleFixtures extends Fixture
         $Ville = new Ville();
         $Ville->setNom('Quimper');
         $Ville->setCodePostal('29000');
+        $this->addReference('ville 1', $Ville);
+        $manager->persist($Ville);
 
-        $Ville = new Ville();
-        $Ville->setNom('Nantes');
-        $Ville->setCodePostal('44000');
+        $Ville2 = new Ville();
+        $Ville2->setNom('Nantes');
+        $Ville2->setCodePostal('44000');
+        $this->addReference('ville 2', $Ville2);
+        $manager->persist($Ville2);
 
-        $Ville = new Ville();
-        $Ville->setNom('Rennes');
-        $Ville->setCodePostal('35000');
+        $Ville3 = new Ville();
+        $Ville3->setNom('Rennes');
+        $Ville3->setCodePostal('35000');
+        $this->addReference('ville 3', $Ville3);
+        $manager->persist($Ville3);
 
-        $Ville = new Ville();
-        $Ville->setNom('Niort');
-        $Ville->setCodePostal('79000');
+        $Ville4 = new Ville();
+        $Ville4->setNom('Niort');
+        $Ville4->setCodePostal('79000');
+        $this->addReference('ville 4', $Ville4);
+        $manager->persist($Ville4);
 
 
         $manager->flush();
