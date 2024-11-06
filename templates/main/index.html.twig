@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Acceuil{% endblock %}
+
+{% block body %}
+
+    <p>Filtrer les sorties</p>
+    <p>Form à faire ici</p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nom de la sortie</th>
+            <th>Date de la sortie</th>
+            <th>Clôture</th>
+            <th>Inscrits/Places</th>
+            <th>Etat</th>
+            <th>Inscrit</th>
+            <th>Organisateur</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        {% for sortie in sorties %}
+            <tbody>
+            <tr>
+                <td style="text-align: center">{{ sortie.nom }}</td>
+                <td>{{ sortie.dateHeureDebut | date('Y-m-d h:i') }}</td>
+                <td>{{ sortie.dateLimiteInscription | date('Y-m-d') }}</td>
+                <td>/{{ sortie.nbInscriptionMax }}</td>
+                <td>{{ sortie.etat.libelle }}</td>
+                <td>ici inscrit check</td>
+                <td>{{ sortie.participantOrganisateur.pseudo }}</td>
+            </tr>
+            </tbody>
+
+        {% endfor %}
+    </table>
+
+    <a href="#" class="btn btn-primary">Créer une sortie</a>
+{% endblock %}
