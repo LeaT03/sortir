@@ -6,6 +6,7 @@ use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
 class Sortie
@@ -16,21 +17,32 @@ class Sortie
     private ?int $id = null;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\NotBlank(message:'Entrez un nom.')]
+    #[Assert\Length(max: 50, maxMessage: "{{ limit }} caractères maximums autorisés.")]
     private ?string $nom = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank(message:'Entrez une date et un horaire.')]
+    #[Assert\GreaterThan("today", message: 'La date doit être ultérieure à la date du jour.')]
     private ?\DateTimeImmutable $dateHeureDebut = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank(message:'Entrez une durée.')]
+    #[Assert\Positive(message: 'La durée doit être positive.')]
     private ?int $duree = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank(message:'Entrez une date.')]
+    #[Assert\LessThan(propertyPath: "dateHeureDebut")]
     private ?\DateTimeImmutable $dateLimiteInscription = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank(message:'Entrez un nombre maximum de participants.')]
+    #[Assert\Positive(message: 'Le nombre doit être positif.')]
     private ?int $nbInscriptionMax = null;
 
     #[ORM\Column(length: 300, nullable: true)]
+    #[Assert\Length(max: 300, maxMessage: "{{ limit }} caractères maximums autorisés.")]
     private ?string $infosSortie = null;
 
     /**
@@ -211,4 +223,5 @@ class Sortie
 
         return $this;
     }
+
 }
