@@ -25,49 +25,52 @@ class SortieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom', TextType::class,[
-                'label' => 'Nom de la sortie :'
+            ->add('nom', TextType::class, [
+                'label' => 'Nom de la sortie :',
             ])
             ->add('dateHeureDebut', DateTimeType::class, [
-                'label'=>'Date et heure de la sortie :',
-                //'widget' => 'single_text',
+                'label' => 'Date et heure de la sortie :',
+                'widget'=> 'single_text',
+                'required' => false,
             ])
-            ->add('dateLimiteInscription',DateType::class, [
+            ->add('dateLimiteInscription', DateType::class, [
                 'widget' => 'single_text',
+                'required' => false,
             ])
-            ->add('nbInscriptionMax', TextType::class,[
-                'label'=>'Nombre de places :'])
+            ->add('nbInscriptionMax', IntegerType::class, [
+                'label' => 'Nombre de places :',
+                'attr' => ['min' => 1],
+                'required'=>false,
+            ])
+
             ->add('duree', IntegerType::class, [
-                'label'=>'Durée :'
-                ])
-
-
-            ->add('infosSortie', TextareaType::class,[
-                'label'=>'Description et infos :'
+                'label' => 'Durée (en minutes) :',
+                'attr' => ['min' => 1],
+                'required' => false,
             ])
-//            ->add('participantInscrits', EntityType::class, [
-//                'class' => Participant::class,
-//                'choice_label' => 'id',
-//                'multiple' => true,
-//            ])
+            ->add('infosSortie', TextareaType::class, [
+                'label' => 'Description et infos :',
+                'required'=>false,
+            ])
+
             ->add('campusOrganisateur', EntityType::class, [
-                'label'=>'Campus :',
+                'label' => 'Campus :',
                 'class' => Campus::class,
                 'choice_label' => 'nom',
             ])
-//            ->add('participantOrganisateur', EntityType::class, [
-//                'class' => Participant::class,
-//                'choice_label' => 'id',
-//            ])
-//            ->add('nom', EntityType::class,[
-//                'class' => Ville::class,
-//                'label'=>'Ville :',
-//                'choice_label'=>'nom',])
 
+            ->add('nomV', EntityType::class, [
+                'class' => Ville::class,
+                'label' => 'Ville',
+                'mapped' => false,
+                'choice_label' => 'nom',
+                'placeholder' => 'Choisissez une ville',
+            ])
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
-                'label'=>'Lieu :',
+                'label' => 'Lieu :',
                 'choice_label' => 'nom',
+                'placeholder' => 'Choisissez un lieu',
             ]);
     }
 
