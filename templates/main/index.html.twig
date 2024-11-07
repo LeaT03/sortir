@@ -3,66 +3,38 @@
 {% block title %}Acceuil{% endblock %}
 
 {% block body %}
-    {{ form_start(form) }}
-    <div class="row">
-        <div class="col">
 
-            {{ form_row(form.campusOrganisateur) }}
-{#            {{ form_row(form.recherche) }}#}
-{#            <div class="row">#}
-{#            <div class="form-group col">#}
-{#            Entre {{ form_row(form.dateEntre) }}#}
-{#            </div>#}
-{#            <div class="form-group col">#}
-{#                et {{ form_row(form.dateFin) }}#}
-{#            </div>#}
-{#            </div>#}
-{#        </div>#}
-{#        <div class="col">#}
-{#            {{ form_row(form.sortieOrganisateur) }}#}
-{#            {{ form_row(form.sortieInscrit) }}#}
-{#            {{ form_row(form.sortieNonInscrit) }}#}
-{#            {{ form_row(form.sortiePassee) }}#}
+    <p>Filtrer les sorties</p>
+    <p>Form à faire ici</p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nom de la sortie</th>
+            <th>Date de la sortie</th>
+            <th>Clôture</th>
+            <th>Inscrits/Places</th>
+            <th>Etat</th>
+            <th>Inscrit</th>
+            <th>Organisateur</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
 
-        </div>
-        <div class="col">
-            <button class="btn btn-primary">Rechercher</button>
-        </div>
-    </div>
-    {{ form_end(form) }}
-
-
-
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
+        {% for sortie in sorties %}
+            <tbody>
             <tr>
-                <th>Nom de la sortie</th>
-                <th>Date de la sortie</th>
-                <th>Clôture</th>
-                <th>Inscrits/Places</th>
-                <th>Etat</th>
-                <th>Inscrit</th>
-                <th>Organisateur</th>
-                <th>Actions</th>
+                <td style="text-align: center">{{ sortie.nom }}</td>
+                <td>{{ sortie.dateHeureDebut | date('Y-m-d h:i') }}</td>
+                <td>{{ sortie.dateLimiteInscription | date('Y-m-d') }}</td>
+                <td>/{{ sortie.nbInscriptionMax }}</td>
+                <td>{{ sortie.etat.libelle }}</td>
+                <td>ici inscrit check</td>
+                <td>{{ sortie.participantOrganisateur.pseudo }}</td>
             </tr>
-            </thead>
+            </tbody>
 
-            {% for sortie in sorties %}
-                <tbody>
-                <tr>
-                    <td style="text-align: center">{{ sortie.nom }}</td>
-                    <td>{{ sortie.dateHeureDebut | date('Y-m-d h:i') }}</td>
-                    <td>{{ sortie.dateLimiteInscription | date('Y-m-d') }}</td>
-                    <td>/{{ sortie.nbInscriptionMax }}</td>
-                    <td>{{ sortie.etat.libelle }}</td>
-                    <td>ici inscrit check</td>
-                    <td>{{ sortie.participantOrganisateur.pseudo }}</td>
-                </tr>
-                </tbody>
+        {% endfor %}
+    </table>
 
-            {% endfor %}
-        </table>
-    </div>
-    <a href="#" class="btn btn-primary">Créer une sortie</a>
+    <a href="/sortie/create" class="btn btn-primary">Créer une sortie</a>
 {% endblock %}
