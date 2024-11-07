@@ -23,12 +23,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 50)]
     private ?string $pseudo = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 50)]
     private ?string $nom = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 50)]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 15, nullable: true)]
