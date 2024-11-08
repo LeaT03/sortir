@@ -4,21 +4,46 @@
 
 {% block body %}
 
-    <p>Filtrer les sorties</p>
-    <p>Form à faire ici</p>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Nom de la sortie</th>
-            <th>Date de la sortie</th>
-            <th>Clôture</th>
-            <th>Inscrits/Places</th>
-            <th>Etat</th>
-            <th>Inscrit</th>
-            <th>Organisateur</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.campusOrganisateur) }}
+            {{ form_row(form.recherche) }}
+            <div class="row">
+                <div class="form-group col">
+                    {{ form_row(form.dateEntre) }}
+                </div>
+                <div class="form-group col">
+                    {{ form_row(form.dateFin) }}
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            {{ form_row(form.sortieOrganisateur) }}
+            {{ form_row(form.sortieInscrit) }}
+            {{ form_row(form.sortieNonInscrit) }}
+            {{ form_row(form.sortiePassee) }}
+        </div>
+        <div class="col">
+            <button class="btn btn-primary">Rechercher</button>
+        </div>
+    </div>
+    {{ form_end(form) }}
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Nom de la sortie</th>
+                <th>Date de la sortie</th>
+                <th>Clôture</th>
+                <th>Inscrits/Places</th>
+                <th>Etat</th>
+                <th>Inscrit</th>
+                <th>Organisateur</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
 
         {% for sortie in sorties %}
             <tbody>
@@ -30,11 +55,14 @@
                 <td>{{ sortie.etat.libelle }}</td>
                 <td>ici inscrit check</td>
                 <td>{{ sortie.participantOrganisateur.pseudo }}</td>
+                {% if app.user and app.user == sortie.participantOrganisateur and sortie.etat.libelle != 'Ouverte' %}
+                    <td><a href="{{ path('sortie_edit', {'id':sortie.id}) }}">Modifier</a></td>
+                {% endif %}
             </tr>
             </tbody>
 
-        {% endfor %}
-    </table>
-
+            {% endfor %}
+        </table>
+    </div>
     <a href="/sortie/create" class="btn btn-primary">Créer une sortie</a>
 {% endblock %}

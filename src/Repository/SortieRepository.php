@@ -19,12 +19,46 @@ class SortieRepository extends ServiceEntityRepository
 
     public function findByCriteria(array $criteria)
     {
-        $querybuilder = $this->createQueryBuilder('s');
+        $querybuilder = $this->createQueryBuilder('s')
+
+            ->leftJoin('s.participantInscrits', 'p')
+            ->addSelect('p');
+
             if (!empty($criteria['campusOrganisateur'])) {
                 $querybuilder->andWhere('s.campusOrganisateur = :campus')
                     ->setParameter('campus', $criteria['campusOrganisateur']);
             }
+        if (!empty($criteria['nom'])) {
+            $querybuilder->andWhere('s.nom LIKE :nom')
+                ->setParameter('nom', '%' . $criteria['nom'] . '%');
+        }
+        if(!empty($criteria['dateEntre'])) {
+            $querybuilder->andWhere('s.dateHeureDebut >= :dateHeureDebut')
+                ->setParameter('dateHeureDebut', $criteria['dateEntre']);
+        }
+        if(!empty($criteria['dateFin'])) {
+            $querybuilder->andWhere('s.dateHeureDebut <= :dateHeureDebut')
+                ->setParameter('dateHeureDebut', $criteria['dateFin']);
+        }
+        if(!empty($criteria['sortieOrganisateur'])) {
+            $querybuilder->andWhere('s.participantOrganisateur = :participantOrganisateur')
+                ->setParameter('participantOrganisateur', $criteria['sortieOrganisateur']);
+        }
+        if(!empty($criteria['sortieInscrit'])) {
+            $querybuilder->andWhere('p.id = :participantInscrits')
+                ->setParameter('participantInscrits', $criteria['sortieInscrit']);
+        }
+//        if(!empty($criteria['sortieNonInscrit'])) {
+//            $querybuilder->andWhere('p.id != :participantInscrits or s.participantInscrits != :participantInscrits' )
+//                ->setParameter('participantInscrits', $criteria['sortieNonInscrit']);
+//        }
+//        if(!empty($criteria['sortieOrganisateur'])) {       !!!!!! Verifier si tris les inscrit
+//            $querybuilder->andWhere('s.id = :id ')
+//                ->setParameter('id', $criteria['sortieOrganisateur']);
+//        }
         $query = $querybuilder->getQuery();
         return $query->getResult();
     }
+
+
 }

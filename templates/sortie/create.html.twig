@@ -3,31 +3,12 @@
 {% block title %}Créer Sortie | {{ parent() }}{% endblock %}
 
 {% block body %}
-<h1>Créer une sortie</h1>
+    <h1>Créer une sortie</h1>
     <div id="formCreate">
-    {{ form_start(sortieForm)}}
-<div class="row">
-    <div class="col-5">
-        {{ form_row(sortieForm.nom) }}
-        {{ form_row(sortieForm.dateHeureDebut) }}
-        {{ form_row(sortieForm.dateLimiteInscription) }}
-        {{ form_row(sortieForm.nbInscriptionMax) }}
-        {{ form_row(sortieForm.duree) }}
-        {{ form_row(sortieForm.infosSortie) }}
+        {{ form_start(sortieForm) }}
+        {% include 'sortie/form_sortie.html.twig' %}
+        {{ form_end(sortieForm) }}
     </div>
-    <div class="col-auto">
-        {{ form_row(sortieForm.campusOrganisateur) }}
-        {{ form_row(sortieForm.nomV) }}
-        {{ form_row(sortieForm.lieu) }}
-    </div>
-</div>
-        <button class="btn btn-dark" name="action" value="enregistrer">Enregistrer</button>
-        <button class="btn btn-primary" name="action" value="publier">Publier la sortie</button>
-        <a href="/" type="button" class="btn btn-danger">Annuler</a>
-
-    {{ form_end(sortieForm) }}
-    </div>
-
 {% endblock %}
 
 
