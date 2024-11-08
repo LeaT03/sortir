@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Participant;
 use App\Form\Models\Search;
 use App\Form\SearchType;
 use App\Repository\SortieRepository;
@@ -12,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class MainController extends AbstractController
 {
-    #[Route('/', name: 'app_main', methods: ['GET','POST'])]
+    #[Route('/acceuil', name: 'app_main', methods: ['GET','POST'])]
     public function list(SortieRepository $sortieRepository, Request $request): Response
     {
         $sorties = $sortieRepository->findAll();
@@ -24,6 +25,29 @@ class MainController extends AbstractController
             if ($search->getCampusOrganisateur()){
                 $criteria['campusOrganisateur'] = $search->getCampusOrganisateur();
             }
+            if ($search->getRecherche()) {
+                $criteria['nom'] = $search->getRecherche();
+            }
+            if($search->getDateEntre()){
+                $criteria['dateEntre'] = $search->getDateEntre();
+            }
+            if($search->getDateFin()){
+                $criteria['dateFin'] = $search->getDateFin();
+            }
+            if ($search->getSortieOrganisateur() === true) {
+                $userId = $this->getUser()->getId(); // Récupère l'ID de l'utilisateur connecté
+                $criteria['sortieOrganisateur'] = $userId;
+            }
+            if ($search->getSortieInscrit() === true) {
+                $userId = $this->getUser()->getId();
+                $criteria['sortieInscrit'] = $userId;
+            }
+            if ($search->getSortieNonInscrit() === true) {
+                $userId = $this->getUser()->getId(); // Récupère l'ID de l'utilisateur connecté
+                $criteria['sortieNonInscrit'] = $userId;
+            }
+
+
             $sorties = $sortieRepository->findByCriteria($criteria);
         }
 

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Campus;
 use App\Form\Models\Search;
+use ContainerMOPG5qE\getParticipantControllerService;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -21,38 +22,46 @@ class SearchType extends AbstractType
                 'label' => 'Campus',
                 'class' => Campus::class,
                 'choice_label' => 'nom',
+                'placeholder' => 'Campus',
+                'required' => false,
 
             ])
-//            ->add('recherche', TextType::class, [
-//                'label' => 'Le nom de la sortie contient:',
-//                'required' => false,
-//                'attr' => [
-//                    'placeholder' => 'Search'
-//                ]
-//            ])->add('dateEntre',DateType::class, [
-//                'label' => false,
-//                'widget' => 'single_text',
-//            ])
-//            ->add('dateFin',DateType::class, [
-//                'label' => false,
-//                'widget' => 'single_text',
-//            ])
-//            ->add('sortieOrganisateur',CheckboxType::class,[
-//                'label' => 'Sorties dont je suis l\'organisateur/trice',
-//                'required' => false,
-//            ])
-//            ->add('sortieInscrit',CheckboxType::class,[
-//                'label' => 'Sorties auquelles je suis inscrit/e',
-//                'required' => false,
-//            ])
-//            ->add('sortieNonInscrit',CheckboxType::class,[
-//                'label' => 'Sorties auquelles je ne suis pas inscrit/e',
-//                'required' => false,
-//            ])
-//            ->add('sortiePassee',CheckboxType::class,[
-//                'label' => 'Sorties passées',
-//                'required' => false,
-//            ])
+            ->add('recherche', TextType::class, [
+                'label' => 'Le nom de la sortie contient:',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Search'
+                ]
+            ])
+            ->add('dateEntre',DateType::class, [
+                'label' => 'Entre',
+                'widget' => 'single_text',
+                'required' => false,
+
+            ])
+            ->add('dateFin',DateType::class, [
+                'label' => 'et',
+                'widget' => 'single_text',
+                'required' => false,
+
+            ])
+            ->add('sortieOrganisateur',CheckboxType::class,[
+                'label' => 'Sorties dont je suis l\'organisateur/trice',
+                'required' => false,
+
+            ])
+            ->add('sortieInscrit',CheckboxType::class,[
+                'label' => 'Sorties auquelles je suis inscrit/e',
+                'required' => false,
+            ])
+            ->add('sortieNonInscrit',CheckboxType::class,[
+                'label' => 'Sorties auquelles je ne suis pas inscrit/e',
+                'required' => false,
+            ])
+            ->add('sortiePassee',CheckboxType::class,[
+                'label' => 'Sorties passées',
+                'required' => false,
+            ])
         ;
     }
 

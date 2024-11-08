@@ -8,14 +8,14 @@ use phpDocumentor\Reflection\Types\Boolean;
 class Search
 {
     private ?Campus $campusOrganisateur = null;
-    private string $recherche;
-    private \DateTimeImmutable $dateEntre;
-    private \DateTimeImmutable $dateFin;
+    private ?string $recherche=null;
+    private ?\DateTimeImmutable $dateEntre = null;
+    private ?\DateTimeImmutable $dateFin = null;
 
-    private Boolean $sortieOrganisateur;
-    private Boolean $sortieInscrit;
-    private Boolean $sortieNonInscrit;
-    private Boolean $sortiePassee;
+    private ?bool $sortieOrganisateur = null;
+    private ?bool $sortieInscrit = null;
+    private ?bool $sortieNonInscrit = null;
+    private ?bool $sortiePassee = null;
 
     public function getCampusOrganisateur(): ?Campus
     {
@@ -28,84 +28,86 @@ class Search
         return $this;
     }
 
-
-
-    public function isSortiePassee(): bool
+    public function getSortiePassee(): ?bool
     {
         return $this->sortiePassee;
     }
 
-    public function setSortiePassee(bool $sortiePassee): Search
+    public function setSortiePassee(?bool $sortiePassee): Search
     {
         $this->sortiePassee = $sortiePassee;
         return $this;
     }
 
-    public function isSortieNonInscrit(): bool
+    public function getSortieNonInscrit(): ?bool
     {
         return $this->sortieNonInscrit;
     }
 
-    public function setSortieNonInscrit(bool $sortieNonInscrit): Search
+    public function setSortieNonInscrit(?bool $sortieNonInscrit): Search
     {
         $this->sortieNonInscrit = $sortieNonInscrit;
         return $this;
     }
 
-    public function isSortieInscrit(): bool
+    public function getSortieInscrit(): ?bool
     {
         return $this->sortieInscrit;
     }
 
-    public function setSortieInscrit(bool $sortieInscrit): Search
+    public function setSortieInscrit(?bool $sortieInscrit): Search
     {
         $this->sortieInscrit = $sortieInscrit;
         return $this;
     }
 
-    public function isSortieOrganisateur(): bool
+    public function getSortieOrganisateur(): ?bool
     {
         return $this->sortieOrganisateur;
     }
 
-    public function setSortieOrganisateur(bool $sortieOrganisateur): Search
+    public function setSortieOrganisateur(?bool $sortieOrganisateur): Search
     {
         $this->sortieOrganisateur = $sortieOrganisateur;
         return $this;
     }
 
-    public function getDateFin(): \DateTimeImmutable
+    public function getDateFin(): ?\DateTimeImmutable
     {
         return $this->dateFin;
     }
 
-    public function setDateFin(\DateTimeImmutable $dateFin): Search
+    public function setDateFin(?\DateTimeImmutable $dateFin): Search
     {
         $this->dateFin = $dateFin;
         return $this;
     }
 
-    public function getDateEntre(): \DateTimeImmutable
+    public function getDateEntre(): ?\DateTimeImmutable
     {
         return $this->dateEntre;
     }
 
-    public function setDateEntre(\DateTimeImmutable $dateEntre): Search
+    public function setDateEntre(?\DateTimeImmutable $dateEntre): Search
     {
         $this->dateEntre = $dateEntre;
         return $this;
     }
 
-    public function getRecherche(): string
+    public function getRecherche(): ?string
     {
         return $this->recherche;
     }
 
-    public function setRecherche(string $recherche): Search
+    public function setRecherche(?string $recherche): Search
     {
         $this->recherche = $recherche;
         return $this;
     }
+
+
+
+
 
 
 
