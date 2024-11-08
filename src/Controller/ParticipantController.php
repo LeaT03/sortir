@@ -14,12 +14,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ParticipantController extends AbstractController
 {
-    #[Route('/participant/{id}', name: 'app_participant_profil',requirements:['id' => '\d+'], methods: ['GET'])]
-    public function index(ParticipantRepository $participantRepository,Request $request, EntityManagerInterface $em, int $id): Response
+    #[Route('/participant/monprofil', name: 'app_participant_profil',requirements:['id' => '\d+'], methods: ['GET','POST'])]
+    public function index(ParticipantRepository $participantRepository,Request $request, EntityManagerInterface $em): Response
     {
 //        Création d'un nouvel objet Participant
 //        $participant = new Participant();
-
+        $id = $this->getUser()->getId();
         $participant = $participantRepository->find($id);
 
         // Création du formulaire pour l'entité Participant
@@ -27,13 +27,37 @@ class ParticipantController extends AbstractController
         $participantsForm->handleRequest($request);
 
         // Si le formulaire est soumis et valide, on enregistre le participant
-//        if ($participantsForm->isSubmitted() && $participantsForm->isValid()) {
-//            $em->persist($participant);
-//            $em->flush();
-//        }
+        if ($participantsForm->isSubmitted() && $participantsForm->isValid()) {
+            $em->persist($participant);
+            $em->flush();
+
+            return $this->redirectToRoute('app_participant_profil');
+        }
 
         // Passage du formulaire au template
         return $this->render('participant/index.html.twig', [
+            'participantsForm' => $participantsForm,
+            'participant' => $participant,
+        ]);
+
+    }
+
+    #[Route('/profil/participant', name: 'app_profil_participant', requirements:['id' => '\d+'], methods: ['GET'])]
+    public function participant(ParticipantRepository $participantRepository,Request $request, EntityManagerInterface $em): Response
+    {
+        $id = $this->getUser()->getId();
+        $participant = $participantRepository->find($id);
+
+        $participantsForm = $this->createForm(ParticipantType::class, $participant);
+        $participantsForm->handleRequest($request);
+
+        if ($participantsForm->isSubmitted() && $participantsForm->isValid()) {
+            $em->persist($participant);
+            $em->flush();
+
+            return $this->redirectToRoute('app_profil_participant');
+        }
+        return $this->render('participant/profil.html.twig', [
             'participantsForm' => $participantsForm,
             'participant' => $participant,
         ]);

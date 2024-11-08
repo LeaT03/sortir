@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+<div>
+
+    <h1> {{ participant.pseudo }} : </h1>
+
+
+            <h4>Nom : {{ participant.nom }}</h4>
+            <h4>Prenom : {{ participant.prenom }}</h4>
+            <h4>Telephone : {{ participant.telephone }}</h4>
+            <h4>Email : {{ participant.email }}</h4>
+
+
+
+    <a href="{{ path('app_participant_profil') }}" class="btn btn-primary" type="submit">Modifier</a>
+
+</div>
+{% endblock %}
+
+
+

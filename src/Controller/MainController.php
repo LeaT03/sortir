@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class MainController extends AbstractController
 {
-    #[Route('/', name: 'app_main', methods: ['GET','POST'])]
+    #[Route('/Accueil', name: 'app_main', methods: ['GET','POST'])]
     public function list(SortieRepository $sortieRepository, Request $request): Response
     {
         $sorties = $sortieRepository->findAll();

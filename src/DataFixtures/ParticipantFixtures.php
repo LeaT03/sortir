@@ -33,7 +33,7 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
         $participantAdmin->setCampus($this->getReference('campus 1'));
         $manager->persist($participantAdmin);
 
-        //Créer 10 Participants
+        //Créer 10 ParticipantType
         for ($i = 0; $i < 10; $i++) {
             $participant = new Participant();
             $participant ->setPseudo($faker->userName);
