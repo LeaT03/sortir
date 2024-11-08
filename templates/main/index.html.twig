@@ -45,18 +45,21 @@
             </tr>
             </thead>
 
-            {% for sortie in sorties %}
-                <tbody>
-                <tr>
-                    <td style="text-align: center">{{ sortie.nom }}</td>
-                    <td>{{ sortie.dateHeureDebut | date('Y-m-d h:i') }}</td>
-                    <td>{{ sortie.dateLimiteInscription | date('Y-m-d') }}</td>
-                    <td>/{{ sortie.nbInscriptionMax }}</td>
-                    <td>{{ sortie.etat.libelle }}</td>
-                    <td>ici inscrit check</td>
-                    <td>{{ sortie.participantOrganisateur.pseudo }}</td>
-                </tr>
-                </tbody>
+        {% for sortie in sorties %}
+            <tbody>
+            <tr>
+                <td style="text-align: center">{{ sortie.nom }}</td>
+                <td>{{ sortie.dateHeureDebut | date('Y-m-d h:i') }}</td>
+                <td>{{ sortie.dateLimiteInscription | date('Y-m-d') }}</td>
+                <td>/{{ sortie.nbInscriptionMax }}</td>
+                <td>{{ sortie.etat.libelle }}</td>
+                <td>ici inscrit check</td>
+                <td>{{ sortie.participantOrganisateur.pseudo }}</td>
+                {% if app.user and app.user == sortie.participantOrganisateur and sortie.etat.libelle != 'Ouverte' %}
+                    <td><a href="{{ path('sortie_edit', {'id':sortie.id}) }}">Modifier</a></td>
+                {% endif %}
+            </tr>
+            </tbody>
 
             {% endfor %}
         </table>
