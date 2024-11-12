@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Afficher Sortie | {{ parent() }} {% endblock %}
+
+{% block body %}
+    <h1>Info sortie</h1>
+    <div class="row">
+        <div class="col-5">
+
+            <p>Nom de la sortie:{{ sortie.nom }}</p>
+            <p>Date et heure de la sortie: {{ sortie.dateHeureDebut | date('Y-m-d h:i') }}</p>
+            <p>Date et heure de la sortie: {{ sortie.dateLimiteInscription | date('Y-m-d') }}</p>
+            <p>Nombres de places: {{ sortie.nbInscriptionMax }}</p>
+            <p>Durée (en minutes): {{ sortie.duree }}</p>
+            <p>Info sortie: {{ sortie.infosSortie }}</p>
+        </div>
+        <div class="col-auto">
+            <p>Campus: {{ sortie.campusOrganisateur.nom }}</p>
+            <p>Ville: {{ sortie.lieu.ville.nom }}</p>
+            <p>Lieu: {{ sortie.lieu.nom }}</p>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+    <p>Liste des participants inscrits:</p>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Pseudo</th>
+                <th>Nom</th>
+            </tr>
+            </thead>
+
+            {% for inscrits in inscrits %}
+                <tbody>
+                <tr>
+                    <td>{{ inscrits.pseudo}}</td>
+                    <td>{{ inscrits.nom}} {{ inscrits.prenom }}</td>
+                </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+{% endblock %}
