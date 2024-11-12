@@ -8,6 +8,7 @@ use App\Entity\Sortie;
 use Faker\Provider\Text;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;  // Bonne importation
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,6 +21,7 @@ class ParticipantType extends AbstractType
         $builder
             ->add('pseudo', TextType::class,[
                 'label' => 'Pseudo :',
+                'attr' => ['readonly' => true,]
             ])
             ->add('nom', TextType::class,[
                 'label' => 'Nom :',
@@ -28,14 +30,16 @@ class ParticipantType extends AbstractType
             ->add('prenom', TextType::class,[
                 'label' => 'Prenom :',
             ])
-            ->add('telephone', IntegerType::class,[
+            ->add('telephone', TextType::class,[
                 'label' => 'Telephone :',
             ])
             ->add('email', TextType::class,[
                 'label' => 'Email :',
+
             ])
-            ->add('password', TextType::class,[
+            ->add('password', PasswordType::class,[
                 'label' => 'Mot de passe :',
+
             ])
 //            ->add('actif')
 //            ->add('roles')
@@ -46,7 +50,7 @@ class ParticipantType extends AbstractType
 //            ])
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nom',
             ])
         ;
     }

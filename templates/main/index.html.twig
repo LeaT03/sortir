@@ -58,6 +58,7 @@
                 {% if app.user and app.user == sortie.participantOrganisateur and sortie.etat.libelle != 'Ouverte' %}
                     <td><a href="{{ path('sortie_edit', {'id':sortie.id}) }}">Modifier</a></td>
                 {% endif %}
+                <td><a href="{{ path('sortie_show', {'id':sortie.id}) }}">Afficher</a></td>
             </tr>
             </tbody>
 

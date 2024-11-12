@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
+use App\Form\Models\Search;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
+use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
@@ -100,6 +102,25 @@ class SortieController extends AbstractController
         ]);
     }
 
+    #[Route('/details/{id}', name: 'show', requirements: ['id'=>'\d+'], methods: ['GET'])]
+    public function show(SortieRepository $sortieRepository, Request $request, int $id): Response{
+        $sortie = $sortieRepository->find($id);
+        $ville = $sortie->getLieu()->getVille()->getNom();
+        $sortieForm = $this->createForm(SortieType::class, $sortie);
+        $sortieForm->handleRequest($request);
+
+
+        $inscrits = $sortie->getParticipantInscrits();
+
+        return $this->render('sortie/show.html.twig',[
+            'sortieForm' => $sortieForm,
+            'sortie' => $sortie,
+            'ville' => $ville,
+            'inscrits' => $inscrits,
+
+        ]);
+    }
+
     #[Route('{id}/delete', name: 'delete', requirements: ['id'=>'\d+'], methods: ['GET'])]
     public function delete(sortie $sortie, Request $request, EntityManagerInterface $em): Response{
 
@@ -116,4 +137,6 @@ class SortieController extends AbstractController
         $this->addFlash('success', "La sortie a été supprimée.");
         return $this->redirectToRoute('app_main');
     }
+
+
 }
