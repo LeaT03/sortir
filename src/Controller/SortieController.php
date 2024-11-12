@@ -2,17 +2,23 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
+use App\Entity\Participant;
 use App\Entity\Sortie;
+use App\Entity\Ville;
 use App\Form\Models\Search;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
+use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Service\Attribute\Required;
 
 #[Route('/sortie', name: 'sortie_')]
 class SortieController extends AbstractController
@@ -24,6 +30,9 @@ class SortieController extends AbstractController
         $action = $request->get("action");
         $etatCree = $etatRepository->findOneBy(['libelle' => 'Créée']);
         $etatOuvert = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
+        $user = $this->getUser();
+        //permet de savoir que c'est le user co qui a créé la sortie (organisateur)
+        $sortie->setParticipantOrganisateur($user);
 
         $sortieForm = $this->createForm(SortieType::class, $sortie);
         $sortieForm->handleRequest($request);
@@ -38,6 +47,7 @@ class SortieController extends AbstractController
 
         if($action === 'publier' && $sortieForm->isValid()) {
             $sortie->setEtat($etatOuvert);
+            $sortie->addParticipantInscrit($user);
             $em->persist($sortie);
             $em->flush();
             $this->addFlash('success', "La sortie a été publiée !");
@@ -82,7 +92,7 @@ class SortieController extends AbstractController
             throw new AccessDeniedException('Vous n\'êtes pas autorisé à modifier cette sortie.');
         }
         //Si la sortie est déjà ouverte, pas possible de la modif
-        if($sortie->getEtat()->getId()===2){
+        if($sortie->getEtat()->getLibelle()==='Ouverte'){
             throw new AccessDeniedException('Vous n\'êtes pas autorisé à modifier cette sortie.');
         }
 
@@ -121,8 +131,40 @@ class SortieController extends AbstractController
         ]);
     }
 
+    #[Route('{id}/sinscrire', name: 'sinscrire', requirements: ['id'=>'\d+'] , methods: ['GET', 'POST'])]
+    public function sinscrire(int $id, SortieRepository $sortieRepository, EntityManagerInterface $em): Response{
+
+        $sortie = $sortieRepository->find($id);
+        $participant = $this->getUser();
+
+        if(count($sortie->getParticipantInscrits())>= $sortie->getNbInscriptionMax()){
+            $this->addFlash('error', 'Le nombre de places maximum est atteint.');
+            return $this->redirectToRoute('app_main');
+        }
+        if($sortie->getEtat()->getLibelle()!=='Ouverte') {
+            $this->addFlash('error', 'La sortie doit être ouverte pour s\'inscrire');
+            return $this->redirectToRoute('app_main');
+        }
+        if($sortie->getParticipantInscrits()->contains($participant)){
+            $this->addFlash('error','Vous êtes déjà inscrit à cette sortie.');
+            return $this->redirectToRoute('app_main');
+        }
+        $dateDuJour = new \DateTimeImmutable();
+        if($dateDuJour > $sortie->getDateLimiteInscription()){
+            $this->addFlash('error', 'La date limite d\'inscription est dépassée.');
+            return $this->redirectToRoute('app_main');
+        }
+
+            $sortie->addParticipantInscrit($participant);
+            $em->persist($sortie);
+            $em->flush();
+            $this->addFlash('success', 'Vous êtes bien inscrit à la sortie !');
+        return $this->redirectToRoute('app_main', ['id' => $id]);
+
+    }
+
     #[Route('{id}/delete', name: 'delete', requirements: ['id'=>'\d+'], methods: ['GET'])]
-    public function delete(sortie $sortie, Request $request, EntityManagerInterface $em): Response{
+    public function delete(Sortie $sortie, EntityManagerInterface $em): Response{
 
         $user = $this->getUser();
 
@@ -137,6 +179,4 @@ class SortieController extends AbstractController
         $this->addFlash('success', "La sortie a été supprimée.");
         return $this->redirectToRoute('app_main');
     }
-
-
 }

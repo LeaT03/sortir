@@ -51,14 +51,23 @@
                 <td style="text-align: center">{{ sortie.nom }}</td>
                 <td>{{ sortie.dateHeureDebut | date('Y-m-d h:i') }}</td>
                 <td>{{ sortie.dateLimiteInscription | date('Y-m-d') }}</td>
-                <td>/{{ sortie.nbInscriptionMax }}</td>
+                <td>{{ sortie.participantInscrits|length }} / {{ sortie.nbInscriptionMax }}</td>
                 <td>{{ sortie.etat.libelle }}</td>
-                <td>ici inscrit check</td>
-                <td>{{ sortie.participantOrganisateur.pseudo }}</td>
-                {% if app.user and app.user == sortie.participantOrganisateur and sortie.etat.libelle != 'Ouverte' %}
-                    <td><a href="{{ path('sortie_edit', {'id':sortie.id}) }}">Modifier</a></td>
+                <td>{% if app.user and sortie.participantInscrits.contains((app.user)) %}
+                    X
                 {% endif %}
-                <td><a href="{{ path('sortie_show', {'id':sortie.id}) }}">Afficher</a></td>
+                </td>
+                <td>{{ sortie.participantOrganisateur.pseudo }}</td>
+                    <td>
+                        {% if app.user and app.user == sortie.participantOrganisateur and sortie.etat.libelle != 'Ouverte' %}
+                        <a href="{{ path('sortie_edit', {'id':sortie.id}) }}">Modifier</a>
+                        {% endif %}
+                        {% if app.user and not sortie.participantInscrits.contains(app.user) and sortie.etat.libelle == 'Ouverte' %}
+                        <a href="{{ path('sortie_sinscrire', {'id':sortie.id}) }}">S'inscrire</a>
+                        {% endif %}
+                        <a href="{{ path('sortie_show', {'id':sortie.id}) }}">Afficher</a>
+                    </td>
+
             </tr>
             </tbody>
 
