@@ -7,6 +7,7 @@ use App\Entity\Participant;
 use App\Form\ParticipantType;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\Id;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,6 +45,7 @@ class ParticipantController extends AbstractController
 
     #[Route('/profil/participant', name: 'app_profil_participant', requirements:['id' => '\d+'], methods: ['GET'])]
     public function participant(ParticipantRepository $participantRepository,Request $request, EntityManagerInterface $em): Response
+
     {
         $id = $this->getUser()->getId();
         $participant = $participantRepository->find($id);
@@ -57,10 +59,22 @@ class ParticipantController extends AbstractController
 
             return $this->redirectToRoute('app_profil_participant');
         }
+
         return $this->render('participant/profil.html.twig', [
             'participantsForm' => $participantsForm,
             'participant' => $participant,
         ]);
 
+    }
+
+    #[Route('/profil/{id}', name: 'app_profil_autre', requirements:['id' => '\d+'], methods: ['GET'])]
+    public function autre(int $id, ParticipantRepository $participantRepository, Request $request, EntityManagerInterface $em ): Response
+    {
+
+        $participant = $participantRepository->find($id);
+
+        return $this->render('participant/autre.html.twig', [
+            'participant' => $participant,
+        ]);
     }
 }

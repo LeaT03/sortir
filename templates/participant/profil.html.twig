@@ -5,19 +5,20 @@
 {% endblock %}
 
 {% block body %}
-<div>
+<div style="text-align: center; ">
 
-    <h1> {{ participant.pseudo }} : </h1>
-
-
-            <h4>Nom : {{ participant.nom }}</h4>
-            <h4>Prenom : {{ participant.prenom }}</h4>
-            <h4>Telephone : {{ participant.telephone }}</h4>
-            <h4>Email : {{ participant.email }}</h4>
+    <h1 style="line-height: 2.5; margin-top: 100px;"> {{ participant.pseudo }} : </h1>
 
 
+            <h4 style="line-height: 3;">Nom : {{ participant.nom }}</h4>
+            <h4 style="line-height: 3;">Prenom : {{ participant.prenom }}</h4>
+            <h4 style="line-height: 3;">Telephone : {{ participant.telephone }}</h4>
+            <h4 style="line-height: 3;">Email : {{ participant.email }}</h4>
+            <h4 style="line-height: 3;">Campus : {{ participant.campus.nom }}</h4>
 
-    <a href="{{ path('app_participant_profil') }}" class="btn btn-primary" type="submit">Modifier</a>
+
+
+    <a href="{{ path('app_participant_profil') }}" class="btn btn-primary" type="submit" style="margin-top: 80px">Modifier</a>
 
 </div>
 {% endblock %}
