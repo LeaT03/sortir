@@ -11,11 +11,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class ParticipantFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(private readonly UserPasswordHasherInterface $userPasswordHasher){
-
     }
     public function load(ObjectManager $manager): void
     {
-
         //Initialisation de Faker
         $faker = \Faker\Factory::create('fr_FR');
 
@@ -33,14 +31,19 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
         $participantAdmin->setCampus($this->getReference('campus 1'));
         $manager->persist($participantAdmin);
 
-        //Créer 10 ParticipantType
+        //Créer 10 Participants
         for ($i = 0; $i < 10; $i++) {
             $participant = new Participant();
-            $participant ->setPseudo($faker->userName);
-            $participant->setNom($faker->lastName);
-            $participant->setPrenom($faker->firstName);
+            $prenom = $faker->firstName();
+            $nom = $faker->lastName();
+            $pseudo = strtolower($prenom).rand(1,999);
+            $email = strtolower($prenom.'.'.$nom.'@exemple.com');
+
+            $participant ->setPseudo($pseudo);
+            $participant->setNom($nom);
+            $participant->setPrenom($prenom);
             $participant->setTelephone($faker->phoneNumber);
-            $participant->setEmail($faker->email);
+            $participant->setEmail($email);
             $participant->setActif(1);
             $participant->setRoles(['ROLE_USER']);
             $password=$this->userPasswordHasher->hashPassword($participantAdmin,'123456');

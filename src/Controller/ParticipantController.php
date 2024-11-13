@@ -17,8 +17,6 @@ class ParticipantController extends AbstractController
     #[Route('/participant/monprofil', name: 'app_participant_profil',requirements:['id' => '\d+'], methods: ['GET','POST'])]
     public function index(ParticipantRepository $participantRepository,Request $request, EntityManagerInterface $em): Response
     {
-//        Création d'un nouvel objet Participant
-//        $participant = new Participant();
         $id = $this->getUser()->getId();
         $participant = $participantRepository->find($id);
 
@@ -61,6 +59,5 @@ class ParticipantController extends AbstractController
             'participantsForm' => $participantsForm,
             'participant' => $participant,
         ]);
-
     }
 }
