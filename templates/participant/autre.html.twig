@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+<div style="text-align: center; ">
+
+    <h1 style="line-height: 2.5; margin-top: 100px;"> {{ participant.pseudo }} : </h1>
+
+
+    <h4 style="line-height: 3;">Nom : {{ participant.nom }}</h4>
+    <h4 style="line-height: 3;">Prenom : {{ participant.prenom }}</h4>
+    <h4 style="line-height: 3;">Telephone : {{ participant.telephone }}</h4>
+    <h4 style="line-height: 3;">Email : {{ participant.email }}</h4>
+    <h4 style="line-height: 3;">Campus : {{ participant.campus.nom }}</h4>
+
+</div>
+{% endblock %}
