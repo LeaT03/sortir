@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Acceuil{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block body %}
 
     {% if app.user %}
-        <p style="text-align: end; margin: 20px; font-size: x-large">Date du jour: {{ "now"|date("d/m/Y") }}<br>
-            Participant: {{ app.user.prenom }}</p>
+        <p style="text-align: end; margin: 20px; font-size: x-large">Date du jour : {{ "now"|date("d/m/Y") }}<br>
+            Participant : {{ app.user.prenom }}</p>
     {% endif %}
 
     {{ form_start(form) }}
@@ -64,7 +64,7 @@
                     </td>
                     <td>{{ sortie.participantOrganisateur.pseudo }}</td>
                     <td>
-                        {% if app.user and app.user == sortie.participantOrganisateur and sortie.etat.libelle != 'Ouverte' %}
+                        {% if app.user and app.user == sortie.participantOrganisateur and sortie.etat.libelle == 'Créée' %}
                             <a href="{{ path('sortie_edit', {'id':sortie.id}) }}" style="text-decoration: none; color: #ff5733"> Modifier </a>
                         {% endif %}
                         {% if app.user and not sortie.participantInscrits.contains(app.user) and sortie.etat.libelle == 'Ouverte' %}
@@ -78,10 +78,8 @@
                             <a href="{{ path('sortie_annuler', {'id':sortie.id}) }}" style="text-decoration: none; color: #ff5733"> Annuler </a>
                         {% endif %}
                     </td>
-
-                </tr>
-                </tbody>
-
+            </tr>
+            </tbody>
             {% endfor %}
         </table>
     </div>

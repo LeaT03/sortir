@@ -7,26 +7,33 @@ Profil : | {{ parent() }}
 {% block body %}
     <div>
 
-        <h1> Profil de {{ participant.nom }} {{ participant.prenom }} :</h1>
+        <h1> Mon profil</h1>
 
         {% for error in participantsForm.vars.errors %}
             <div class="alert alert-danger">{{ error.message }}</div>
         {% endfor %}
 
+        <div class="row" style="margin: auto">
+        <div id="formCreate"class="col-4">
         {{ form_start(participantsForm) }}
 
             <p>{{ form_row(participantsForm.pseudo) }}</p>
             <p>{{ form_row(participantsForm.nom) }}</p>
             <p>{{ form_row(participantsForm.prenom) }}</p>
             <p>{{ form_row(participantsForm.telephone) }}</p>
+        </div>
+        <div class="col-4">
             <p>{{ form_row(participantsForm.email) }}</p>
             <p>{{ form_row(participantsForm.password) }}</p>
+            <p>{{ form_row(participantsForm.confirmPassword) }}</p>
             <p>{{ form_row(participantsForm.campus) }}</p>
-
-        <button class="btn btn-primary" href="{{ path('app_participant_profil') }}" type="submit">Enregisrer</button>
+        </div>
+        </div>
+        <button class="btn btn-primary" href="{{ path('app_participant_profil') }}"style="background: #ff5733; border: none; type="submit">Enregisrer</button>
 
         <button  class="btn btn-danger" href="/" type="reset">Annuler</button>
         {{ form_end(participantsForm) }}
-
+        </div>
     </div>
+
 {% endblock %}

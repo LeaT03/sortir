@@ -2,12 +2,8 @@
 
 namespace App\Form;
 
-use App\Entity\Campus;
-use App\Entity\Etat;
-use App\Entity\Lieu;
-use App\Entity\Participant;
 use App\Entity\Sortie;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,7 +16,6 @@ class AnnulerSortieType extends AbstractType
         $builder
             ->add('infosSortie', TextareaType::class, [
                 'label' => 'Motif :',
-
             ])
         ;
     }
