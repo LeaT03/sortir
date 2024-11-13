@@ -19,6 +19,7 @@ security:
             form_login:
                 login_path: app_login
                 check_path: app_login
+                default_target_path: app_main # Redirection vers l'accueil une fois connecté.
                 enable_csrf: true
             logout:
                 path: app_logout
@@ -40,7 +41,6 @@ security:
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: ROLE_USER }
-        # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
     security:

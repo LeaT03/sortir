@@ -25,7 +25,6 @@ class ParticipantType extends AbstractType
             ])
             ->add('nom', TextType::class,[
                 'label' => 'Nom :',
-
             ])
             ->add('prenom', TextType::class,[
                 'label' => 'Prenom :',
@@ -35,11 +34,13 @@ class ParticipantType extends AbstractType
             ])
             ->add('email', TextType::class,[
                 'label' => 'Email :',
-
             ])
             ->add('password', PasswordType::class,[
                 'label' => 'Mot de passe :',
-
+            ])
+            ->add('confirmPassword', PasswordType::class,[
+                'label' => 'Confirmation :',
+                'mapped' => false,
             ])
 //            ->add('actif')
 //            ->add('roles')

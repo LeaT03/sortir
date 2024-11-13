@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title>{% block title %}Sortir{% endblock %}</title>
     <link rel="icon" href="{{ asset('img/sortir2paris-fond-blanc-small.png') }}">
 
     {% block stylesheets %}
@@ -15,7 +15,8 @@
         {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}
 </head>
-<body>
+
+<body class="container-fluid" style="background: cornsilk;">
 <header>{% include '_navbar.html.twig' %}</header>
 {% for label,messages in app.flashes %}
     {% for message in messages %}
@@ -23,6 +24,7 @@
             {{ message }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+
     {% endfor %}
 {% endfor %}
 {% block body %}

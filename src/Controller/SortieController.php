@@ -2,29 +2,22 @@
 
 namespace App\Controller;
 
-use App\Entity\Etat;
-use App\Entity\Participant;
 use App\Entity\Sortie;
-use App\Entity\Ville;
-use App\Form\Models\Search;
+use App\Form\AnnulerSortieType;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
-use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Contracts\Service\Attribute\Required;
 
 #[Route('/sortie', name: 'sortie_')]
 class SortieController extends AbstractController
 {
-
-    //Fonction refactor code dupliqué dans Create et Edit
+    //Fonction refactorisée car code dupliqué dans Create et Edit
     public function enregistrerOuPublier(Sortie $sortie, Request $request,EtatRepository $etatRepository, EntityManagerInterface $em): ?Response {
 
         $action = $request->get("action");
@@ -108,7 +101,6 @@ class SortieController extends AbstractController
         return $this->render('sortie/edit.html.twig',[
             'sortieForm' => $sortieForm,
             'sortie' => $sortie,
-            'edit_mode'=> true
         ]);
     }
 
@@ -127,7 +119,6 @@ class SortieController extends AbstractController
             'sortie' => $sortie,
             'ville' => $ville,
             'inscrits' => $inscrits,
-
         ]);
     }
 
@@ -138,20 +129,20 @@ class SortieController extends AbstractController
         $participant = $this->getUser();
 
         if(count($sortie->getParticipantInscrits())>= $sortie->getNbInscriptionMax()){
-            $this->addFlash('error', 'Le nombre de places maximum est atteint.');
+            $this->addFlash('danger', 'Le nombre de places maximum est atteint.');
             return $this->redirectToRoute('app_main');
         }
         if($sortie->getEtat()->getLibelle()!=='Ouverte') {
-            $this->addFlash('error', 'La sortie doit être ouverte pour s\'inscrire');
+            $this->addFlash('danger', 'La sortie doit être ouverte pour s\'inscrire');
             return $this->redirectToRoute('app_main');
         }
         if($sortie->getParticipantInscrits()->contains($participant)){
-            $this->addFlash('error','Vous êtes déjà inscrit à cette sortie.');
+            $this->addFlash('danger','Vous êtes déjà inscrit à cette sortie.');
             return $this->redirectToRoute('app_main');
         }
         $dateDuJour = new \DateTimeImmutable();
         if($dateDuJour > $sortie->getDateLimiteInscription()){
-            $this->addFlash('error', 'La date limite d\'inscription est dépassée.');
+            $this->addFlash('danger', 'La date limite d\'inscription est dépassée.');
             return $this->redirectToRoute('app_main');
         }
 
@@ -159,8 +150,49 @@ class SortieController extends AbstractController
             $em->persist($sortie);
             $em->flush();
             $this->addFlash('success', 'Vous êtes bien inscrit à la sortie !');
-        return $this->redirectToRoute('app_main', ['id' => $id]);
+        return $this->redirectToRoute('app_main');
 
+    }
+
+    #[Route('{id}/desister', name: 'desister', requirements: ['id'=>'\d+'] , methods: ['GET', 'POST'])]
+    public function desister(int $id, SortieRepository $sortieRepository, EntityManagerInterface $em): Response {
+        $sortie = $sortieRepository->find($id);
+        $participant = $this->getUser();
+
+        if($sortie->getParticipantInscrits()->contains($participant)){
+            $sortie->removeParticipantInscrit($participant);
+            $em->flush();
+            $this->addFlash('success','Vous êtes bien désinscrit à cette sortie.');
+            return $this->redirectToRoute('app_main');
+        }
+        return $this->redirectToRoute('app_main');
+    }
+
+    #[Route('{id}/annuler', name: 'annuler', requirements: ['id'=>'\d+'] , methods: ['GET', 'POST'])]
+    public function annuler(int $id, SortieRepository $sortieRepository, EtatRepository $etatRepository, Request $request, EntityManagerInterface $em): Response {
+        $sortie = $sortieRepository->find($id);
+        $action = $request->get("action");
+        $etatAnnule = $etatRepository->findOneBy(['libelle' => 'Annulée']);
+        $user = $this->getUser();
+        $sortie->setParticipantOrganisateur($user);
+
+        $sortieForm = $this->createForm(AnnulerSortieType::class, $sortie);
+        $sortieForm->handleRequest($request);
+
+            // Si l'action est "annuler", on met à jour l'état de la sortie
+            if ($action === 'annuler') {
+                $sortie->setEtat($etatAnnule);
+                $em->flush();
+                $this->addFlash('success', "La sortie a bien été annulée.");
+
+                // Redirection après l'annulation
+                return $this->redirectToRoute('app_main');  // Remplacez par la route de votre choix
+            }
+
+        return $this->render('sortie/annuler.html.twig',[
+            'sortieForm' => $sortieForm,
+            'sortie' => $sortie,
+        ]);
     }
 
     #[Route('{id}/delete', name: 'delete', requirements: ['id'=>'\d+'], methods: ['GET'])]
