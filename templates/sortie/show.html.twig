@@ -14,18 +14,21 @@
             <p>Durée (en minutes) : {{ sortie.duree }}</p>
             <p>Info sortie : {{ sortie.infosSortie }}</p>
         </div>
-        <div class="col-auto">
+        <div class=" offset-1 col-2">
             <p>Campus : {{ sortie.campusOrganisateur.nom }}</p>
             <p>Ville : {{ sortie.lieu.ville.nom }}</p>
             <p>Lieu : {{ sortie.lieu.nom }}</p>
+            <p>Code postal : {{ sortie.lieu.ville.codePostal }}</p>
+
         </div>
     </div>
 
-    <div class="table-responsive">
+
+    <div class="table-responsive" style="width: 40vh">
     <p>Liste des participants inscrits :</p>
 
-        <table class="table">
-            <thead>
+        <table class="table table-hover">
+            <thead class="table-active">
             <tr>
                 <th>Pseudo</th>
                 <th>Nom</th>
