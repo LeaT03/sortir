@@ -153,6 +153,47 @@ class SortieController extends AbstractController
 
     }
 
+    #[Route('{id}/desister', name: 'desister', requirements: ['id'=>'\d+'] , methods: ['GET', 'POST'])]
+    public function desister(int $id, SortieRepository $sortieRepository, EntityManagerInterface $em): Response {
+        $sortie = $sortieRepository->find($id);
+        $participant = $this->getUser();
+
+        if($sortie->getParticipantInscrits()->contains($participant)){
+            $sortie->removeParticipantInscrit($participant);
+            $em->flush();
+            $this->addFlash('success','Vous êtes bien désinscrit à cette sortie.');
+            return $this->redirectToRoute('app_main');
+        }
+        return $this->redirectToRoute('app_main');
+    }
+
+    #[Route('{id}/annuler', name: 'annuler', requirements: ['id'=>'\d+'] , methods: ['GET', 'POST'])]
+    public function annuler(int $id, SortieRepository $sortieRepository, EtatRepository $etatRepository, Request $request, EntityManagerInterface $em): Response {
+        $sortie = $sortieRepository->find($id);
+        $action = $request->get("action");
+        $etatAnnule = $etatRepository->findOneBy(['libelle' => 'Annulée']);
+        $user = $this->getUser();
+        $sortie->setParticipantOrganisateur($user);
+
+        $sortieForm = $this->createForm(AnnulerSortieType::class, $sortie);
+        $sortieForm->handleRequest($request);
+
+            // Si l'action est "annuler", on met à jour l'état de la sortie
+            if ($action === 'annuler') {
+                $sortie->setEtat($etatAnnule);
+                $em->flush();
+                $this->addFlash('success', "La sortie a bien été annulée.");
+
+                // Redirection après l'annulation
+                return $this->redirectToRoute('app_main');  // Remplacez par la route de votre choix
+            }
+
+        return $this->render('sortie/annuler.html.twig',[
+            'sortieForm' => $sortieForm,
+            'sortie' => $sortie,
+        ]);
+    }
+
     #[Route('{id}/delete', name: 'delete', requirements: ['id'=>'\d+'], methods: ['GET'])]
     public function delete(Sortie $sortie, EntityManagerInterface $em): Response{
 

@@ -31,13 +31,13 @@ class SortieRepository extends ServiceEntityRepository
             $querybuilder->andWhere('s.nom LIKE :nom')
                 ->setParameter('nom', '%' . $criteria['nom'] . '%');
         }
-        if (!empty($criteria['dateEntre'])) {
-            $querybuilder->andWhere('s.dateHeureDebut >= :dateHeureDebut')
-                ->setParameter('dateHeureDebut', $criteria['dateEntre']);
+        if(!empty($criteria['dateEntre'])) {
+            $querybuilder->andWhere('s.dateHeureDebut >= :dateHeureDebutEntre')
+                ->setParameter('dateHeureDebutEntre', $criteria['dateEntre']);
         }
-        if (!empty($criteria['dateFin'])) {
-            $querybuilder->andWhere('s.dateHeureDebut <= :dateHeureDebut')
-                ->setParameter('dateHeureDebut', $criteria['dateFin']);
+        if(!empty($criteria['dateFin'])) {
+            $querybuilder->andWhere('s.dateHeureDebut <= :dateHeureDebutFin')
+                ->setParameter('dateHeureDebutFin', $criteria['dateFin']);
         }
         if (!empty($criteria['sortieOrganisateur'])) {
             $querybuilder->andWhere('s.participantOrganisateur = :participantOrganisateur')
