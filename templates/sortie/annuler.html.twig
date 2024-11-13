@@ -3,24 +3,25 @@
 {% block title %}Acceuil{% endblock %}
 
 {% block body %}
-
-    <h1>Annuler une sortie</h1>
-
-    <p>Nom de la sortie: {{ sortie.nom }}</p>
-    <p>Date de la sortie: {{ sortie.dateHeureDebut | date('d-m-Y h:i') }}</p>
-    <p>Campus: {{ sortie.campusOrganisateur.nom }}</p>
-    <p>Lieu: {{ sortie.lieu.nom }} {{ sortie.lieu.ville.codePostal }} {{ sortie.lieu.ville.nom }}</p>
-
-
- {{ form_start(sortieForm) }}
-    {{ form_row(sortieForm.infosSortie) }}
-
-
-
-    <div class="form-actions">
-    <button class="btn btn-primary" name="action" value="annuler">Enregistrer</button>
-        <a href="/" class="btn btn-dark">Annuler</a>
+    <div class="container" style="font-size: x-large">
+    <h1 style="text-align: center; margin-bottom: 10vh">Annuler une sortie</h1>
+  <div class="text-center">
+        <p>Nom de la sortie: {{ sortie.nom }}</p>
+        <p>Date de la sortie: {{ sortie.dateHeureDebut | date('d-m-Y h:i') }}</p>
+        <p>Campus: {{ sortie.campusOrganisateur.nom }}</p>
+        <p>Lieu: {{ sortie.lieu.nom }} {{ sortie.lieu.ville.codePostal }} {{ sortie.lieu.ville.nom }}</p>
     </div>
-    {{ form_end(sortieForm, {'render_rest': false}) }}
+   <div class="offset-4 col-4 ">
+        {{ form_start(sortieForm) }}
+        {{ form_row(sortieForm.infosSortie) }}
 
+
+        <div class="form-actions" style="text-align: center">
+            <button class="btn btn-primary" style="background: #ff5733; border-color:#ff5733 " name="action"
+                    value="annuler">Enregistrer
+            </button>
+            <a href="/" class="btn btn-dark">Annuler</a>
+        </div>
+        {{ form_end(sortieForm, {'render_rest': false}) }}
+    </div>
 {% endblock %}

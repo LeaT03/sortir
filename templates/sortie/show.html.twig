@@ -3,9 +3,11 @@
 {% block title %} Afficher Sortie | {{ parent() }} {% endblock %}
 
 {% block body %}
-    <h1>Info sortie</h1>
-    <div class="row">
-        <div class="col-5">
+    <div>
+    <h1 style="text-align: center; margin-bottom: 10vh">Info sortie</h1>
+    <div class="row" style=" font-size: 2.5vh;" >
+
+        <div class="offset-3 col-3" >
 
             <p>Nom de la sortie:{{ sortie.nom }}</p>
             <p>Date et heure de la sortie: {{ sortie.dateHeureDebut | date('Y-m-d h:i') }}</p>
@@ -14,18 +16,21 @@
             <p>Durée (en minutes): {{ sortie.duree }}</p>
             <p>Info sortie: {{ sortie.infosSortie }}</p>
         </div>
-        <div class="col-auto">
+        <div class=" offset-1 col-2">
             <p>Campus: {{ sortie.campusOrganisateur.nom }}</p>
             <p>Ville: {{ sortie.lieu.ville.nom }}</p>
             <p>Lieu: {{ sortie.lieu.nom }}</p>
+            <p>Code postal: {{ sortie.lieu.ville.codePostal }}</p>
+
         </div>
     </div>
 
-    <div class="table-responsive">
+
+    <div class="table-responsive" style="width: 40vh">
     <p>Liste des participants inscrits:</p>
 
-        <table class="table">
-            <thead>
+        <table class="table table-hover">
+            <thead class="table-active">
             <tr>
                 <th>Pseudo</th>
                 <th>Nom</th>
@@ -41,4 +46,5 @@
                 </tbody>
             {% endfor %}
         </table>
+    </div>
 {% endblock %}

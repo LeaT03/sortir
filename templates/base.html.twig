@@ -15,7 +15,8 @@
         {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}
 </head>
-<body style="background: cornsilk;">
+
+<body class="container-fluid" style="background: cornsilk;">
 <header>{% include '_navbar.html.twig' %}</header>
 {% for label,messages in app.flashes %}
     {% for message in messages %}
@@ -23,6 +24,7 @@
             {{ message }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+
     {% endfor %}
 {% endfor %}
 {% block body %}

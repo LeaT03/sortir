@@ -3,15 +3,17 @@
 {% block title %}Acceuil{% endblock %}
 
 {% block body %}
-
+    <div style="font-size: 2vh">
     {% if app.user %}
         <p style="text-align: end; margin: 20px; font-size: x-large">Date du jour: {{ "now"|date("d/m/Y") }}<br>
             Participant: {{ app.user.prenom }}</p>
     {% endif %}
 
+
     {{ form_start(form) }}
-    <div class="row" style="background: #ff5733; font-size: x-large" >
-        <div class="col" style="margin: 20px" >
+    <div class="row" style="background: #ff5733; font-size: 3vh">
+
+        <div class="col" style="margin: 20px">
             {{ form_row(form.campusOrganisateur) }}
             {{ form_row(form.recherche) }}
             <div class="row">
@@ -23,14 +25,17 @@
                 </div>
             </div>
         </div>
-        <div class="col" style="align-content: center; margin-left: 150px">
+        <div class="col" style="align-content: center;">
             {{ form_row(form.sortieOrganisateur) }}
             {{ form_row(form.sortieInscrit) }}
             {{ form_row(form.sortieNonInscrit) }}
             {{ form_row(form.sortiePassee) }}
         </div>
-        <div class="col" style="margin: auto 0px; text-align: center">
-            <button class="btn btn-primary" style="background: cornsilk; color: black; border: none; padding: 20px; font-size: x-large">Rechercher</button>
+        <div class="col" style="margin: auto 0; text-align: center">
+            <button class="btn btn-primary"
+                    style="background: cornsilk; color: black; border: none; padding: 20px; font-size: x-large">
+                Rechercher
+            </button>
         </div>
     </div>
     {{ form_end(form) }}
@@ -65,17 +70,22 @@
                     <td>{{ sortie.participantOrganisateur.pseudo }}</td>
                     <td>
                         {% if app.user and app.user == sortie.participantOrganisateur and sortie.etat.libelle != 'Ouverte' %}
-                            <a href="{{ path('sortie_edit', {'id':sortie.id}) }}" style="text-decoration: none; color: #ff5733"> Modifier </a>
+                            <a href="{{ path('sortie_edit', {'id':sortie.id}) }}"
+                               style="text-decoration: none; color: #ff5733"> Modifier </a>
                         {% endif %}
                         {% if app.user and not sortie.participantInscrits.contains(app.user) and sortie.etat.libelle == 'Ouverte' %}
-                            <a href="{{ path('sortie_sinscrire', {'id':sortie.id}) }}" style="text-decoration: none; color: #ff5733" > S'inscrire </a>
+                            <a href="{{ path('sortie_sinscrire', {'id':sortie.id}) }}"
+                               style="text-decoration: none; color: #ff5733"> S'inscrire </a>
                         {% endif %}
                         {% if app.user and sortie.participantInscrits.contains(app.user) and app.user != sortie.participantOrganisateur %}
-                            <a href="{{ path('sortie_desister', {'id':sortie.id}) }}" style="text-decoration: none; color: #ff5733"> Se désister </a>
+                            <a href="{{ path('sortie_desister', {'id':sortie.id}) }}"
+                               style="text-decoration: none; color: #ff5733"> Se désister </a>
                         {% endif %}
-                        <a href="{{ path('sortie_show', {'id':sortie.id}) }}" style="text-decoration: none; color: #ff5733">Afficher</a>
+                        <a href="{{ path('sortie_show', {'id':sortie.id}) }}"
+                           style="text-decoration: none; color: #ff5733">Afficher</a>
                         {% if app.user and app.user == sortie.participantOrganisateur and sortie.etat.libelle == 'Ouverte' %}
-                            <a href="{{ path('sortie_annuler', {'id':sortie.id}) }}" style="text-decoration: none; color: #ff5733"> Annuler </a>
+                            <a href="{{ path('sortie_annuler', {'id':sortie.id}) }}"
+                               style="text-decoration: none; color: #ff5733"> Annuler </a>
                         {% endif %}
                     </td>
 
@@ -85,5 +95,7 @@
             {% endfor %}
         </table>
     </div>
-    <a href="/sortie/create" class="btn btn-primary" style=" background: #ff5733; border: none; margin: 20px; padding: 20px;font-size: x-large">Créer une sortie</a>
+    <a href="/sortie/create" class="btn btn-primary"
+       style=" background: #ff5733; border: none; margin: 20px; padding: 20px;font-size: x-large">Créer une sortie</a>
+
 {% endblock %}
