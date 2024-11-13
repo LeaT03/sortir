@@ -33,12 +33,12 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('nom', '%' . $criteria['nom'] . '%');
         }
         if(!empty($criteria['dateEntre'])) {
-            $querybuilder->andWhere('s.dateHeureDebut >= :dateHeureDebut')
-                ->setParameter('dateHeureDebut', $criteria['dateEntre']);
+            $querybuilder->andWhere('s.dateHeureDebut >= :dateHeureDebutEntre')
+                ->setParameter('dateHeureDebutEntre', $criteria['dateEntre']);
         }
         if(!empty($criteria['dateFin'])) {
-            $querybuilder->andWhere('s.dateHeureDebut <= :dateHeureDebut')
-                ->setParameter('dateHeureDebut', $criteria['dateFin']);
+            $querybuilder->andWhere('s.dateHeureDebut <= :dateHeureDebutFin')
+                ->setParameter('dateHeureDebutFin', $criteria['dateFin']);
         }
         if(!empty($criteria['sortieOrganisateur'])) {
             $querybuilder->andWhere('s.participantOrganisateur = :participantOrganisateur')
@@ -48,10 +48,14 @@ class SortieRepository extends ServiceEntityRepository
             $querybuilder->andWhere('p.id = :participantInscrits')
                 ->setParameter('participantInscrits', $criteria['sortieInscrit']);
         }
-//        if(!empty($criteria['sortieNonInscrit'])) {
-//            $querybuilder->andWhere('p.id != :participantInscrits or s.participantInscrits != :participantInscrits' )
-//                ->setParameter('participantInscrits', $criteria['sortieNonInscrit']);
-//        }
+        if(!empty($criteria['sortieNonInscrit'])) {
+            $querybuilder->andWhere('p.id != :participantInscrits or s.participantInscrits != :participantInscrits' )
+                ->setParameter('participantInscrits', $criteria['sortieNonInscrit']);
+        }
+        if (!empty($criteria['sortiePassee'])) {
+            $querybuilder->andWhere('s.dateLimiteInscription < :now')
+                ->setParameter('now', new \DateTime());
+        }
 //        if(!empty($criteria['sortieOrganisateur'])) {       !!!!!! Verifier si tris les inscrit
 //            $querybuilder->andWhere('s.id = :id ')
 //                ->setParameter('id', $criteria['sortieOrganisateur']);

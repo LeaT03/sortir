@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class MainController extends AbstractController
 {
-    #[Route('/acceuil', name: 'app_main', methods: ['GET','POST'])]
+    #[Route('/accueil', name: 'app_main', methods: ['GET','POST'])]
     public function list(SortieRepository $sortieRepository, Request $request): Response
     {
         $sorties = $sortieRepository->findAll();
@@ -42,10 +42,13 @@ class MainController extends AbstractController
                 $userId = $this->getUser()->getId();
                 $criteria['sortieInscrit'] = $userId;
             }
-            if ($search->getSortieNonInscrit() === true) {
-                $userId = $this->getUser()->getId(); // Récupère l'ID de l'utilisateur connecté
-                $criteria['sortieNonInscrit'] = $userId;
+            if ($search->getSortiePassee() === true) {
+                $criteria['sortiePassee'] = $search->getSortiePassee();
             }
+//            if ($search->getSortieNonInscrit() === true) {
+//                $userId = $this->getUser()->getId(); // Récupère l'ID de l'utilisateur connecté
+//                $criteria['sortieNonInscrit'] = $userId;
+//            }
 
 
             $sorties = $sortieRepository->findByCriteria($criteria);

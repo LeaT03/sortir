@@ -15,7 +15,7 @@
         {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}
 </head>
-<body>
+<body style="background: cornsilk;">
 <header>{% include '_navbar.html.twig' %}</header>
 {% for label,messages in app.flashes %}
     {% for message in messages %}
