@@ -13,25 +13,27 @@ Profil : | {{ parent() }}
             <div class="alert alert-danger">{{ error.message }}</div>
         {% endfor %}
 
-        <div class="row" style="margin: auto">
-        <div id="formCreate"class="col-4">
+        <div class="row offset-3">
+        <div id="formCreate"class="col-4 w-25">
         {{ form_start(participantsForm) }}
 
-            <p>{{ form_row(participantsForm.pseudo) }}</p>
-            <p>{{ form_row(participantsForm.nom) }}</p>
-            <p>{{ form_row(participantsForm.prenom) }}</p>
-            <p>{{ form_row(participantsForm.telephone) }}</p>
+            {{ form_row(participantsForm.pseudo) }}
+            {{ form_row(participantsForm.nom) }}
+            {{ form_row(participantsForm.prenom) }}
+            {{ form_row(participantsForm.telephone) }}
         </div>
-        <div class="col-4">
-            <p>{{ form_row(participantsForm.email) }}</p>
-            <p>{{ form_row(participantsForm.password) }}</p>
-            <p>{{ form_row(participantsForm.confirmPassword) }}</p>
-            <p>{{ form_row(participantsForm.campus) }}</p>
+        <div class="col-4 w-25 offset-1">
+            {{ form_row(participantsForm.email) }}
+            {{ form_row(participantsForm.password) }}
+            {{ form_row(participantsForm.confirmPassword) }}
+            {{ form_row(participantsForm.campus) }}
         </div>
         </div>
+        <div style="text-align: center">
         <button class="btn btn-primary" href="{{ path('app_participant_profil') }}"style="background: #ff5733; border: none; type="submit">Enregisrer</button>
 
         <button  class="btn btn-danger" href="/" type="reset">Annuler</button>
+        </div>
         {{ form_end(participantsForm) }}
         </div>
     </div>

@@ -1,3 +1,16 @@
+h1 {
+    text-align: center;
+}
+
 body {
-    background-color: skyblue;
+    background-color: #a6b5cc;
+}
+
+/*div {*/
+/*    text-align: center;*/
+/*    justify-content: space-around;*/
+/*    margin: 1em;}*/
+
+#formCreate {
+    margin-left: 3vw;
 }

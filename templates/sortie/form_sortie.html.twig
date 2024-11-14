@@ -1,6 +1,6 @@
 {% block body %}
 <div class="row">
-    <div class="col-5">
+    <div class="offset-3 col-5 w-25">
         {{ form_row(sortieForm.nom) }}
         {{ form_row(sortieForm.dateHeureDebut) }}
         {{ form_row(sortieForm.dateLimiteInscription) }}
@@ -8,14 +8,14 @@
         {{ form_row(sortieForm.duree) }}
         {{ form_row(sortieForm.infosSortie) }}
     </div>
-    <div class="col-auto">
+    <div class="col-auto w-25">
         {{ form_row(sortieForm.campusOrganisateur) }}
         {{ form_row(sortieForm.nomV) }}
         {{ form_row(sortieForm.lieu) }}
     </div>
-    <div class="form-actions">
+    <div class="form-actions"style="text-align: center">
         <button class="btn btn-dark" style="background: #ff8d78; border: none; " name="action" value="enregistrer">Enregistrer</button>
-        <button class="btn btn-primary"style="background: #ff5733; border: none;" name="action" value="publier">Publier la sortie</button>
+        <button class="btn btn-dark"style="background: #ff5733; border: none;" name="action" value="publier">Publier la sortie</button>
         <a href="/" class="btn btn-dark">Annuler</a>
     </div>
     </div>

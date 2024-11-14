@@ -46,7 +46,7 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
             $participant->setEmail($email);
             $participant->setActif(1);
             $participant->setRoles(['ROLE_USER']);
-            $password=$this->userPasswordHasher->hashPassword($participantAdmin,'123456');
+            $password=$this->userPasswordHasher->hashPassword($participant,'123456');
             $participant->setPassword($password);
             $participant->setCampus($this->getReference('campus '.mt_rand(1,4)));
             $this->addReference('participant '.$i, $participant);

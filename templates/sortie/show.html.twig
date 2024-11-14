@@ -35,11 +35,11 @@
             </tr>
             </thead>
 
-            {% for inscrits in inscrits %}
+            {% for inscrit in inscrits %}
                 <tbody>
                 <tr>
-                    <td>{{ inscrits.pseudo}}</td>
-                    <td>{{ inscrits.nom}} {{ inscrits.prenom }}</td>
+                    <td><a href="{{ path('app_profil_autre', {'id': inscrit.id}) }}">{{ inscrit.pseudo}}</a></td>
+                    <td>{{ inscrit.nom}} {{ inscrit.prenom }}</td>
                 </tr>
                 </tbody>
             {% endfor %}

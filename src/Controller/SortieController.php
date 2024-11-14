@@ -54,7 +54,6 @@ class SortieController extends AbstractController
     {
         $sortie = new Sortie();
         $user = $this->getUser();
-        //permet de savoir que c'est le user co qui a créé la sortie (organisateur)
         $sortie->setParticipantOrganisateur($user);
         $campus = $user->getCampus();
         $sortie->setCampusOrganisateur($campus);
@@ -68,7 +67,6 @@ class SortieController extends AbstractController
                 return $response;
             }
         }
-
         return $this->render('sortie/create.html.twig',
             ['sortieForm' => $sortieForm]);
     }

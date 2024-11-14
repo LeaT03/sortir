@@ -7,7 +7,7 @@
     <div id="formCreate">
         {{ form_start(sortieForm) }}
         {% include 'sortie/form_sortie.html.twig' %}
-        <div class="form-actions">
+        <div class="form-actions mt-2"style="text-align: center">
             <a href="{{ path('sortie_delete', {'id': sortie.id}) }}" class="btn btn-danger"
                onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette sortie ?');">Supprimer la sortie</a>
         </div>

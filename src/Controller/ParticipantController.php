@@ -68,7 +68,6 @@ class ParticipantController extends AbstractController
     #[Route('/profil/{id}', name: 'app_profil_autre', requirements:['id' => '\d+'], methods: ['GET'])]
     public function autre(int $id, ParticipantRepository $participantRepository, Request $request, EntityManagerInterface $em ): Response
     {
-
         $participant = $participantRepository->find($id);
 
         return $this->render('participant/autre.html.twig', [
